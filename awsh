@@ -101,7 +101,7 @@ def select_instance(args, instances, parser):
         print('Invalid instance.\n')
         parser.print_help()
 
-    except (EOFError, KeyboardInterrupt):
+    except (EOFError, KeyboardInterrupt, SyntaxError):
         exit(0)
 
 
