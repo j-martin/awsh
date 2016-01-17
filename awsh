@@ -92,8 +92,9 @@ def main():
 
 
 def select_instance(args, instances, parser):
+    details_fmt = "{:2} - {name:<32}{id:<16}{public_dns_name:<48}{type:<12}({state})"
     for i, instance in enumerate(instances):
-      print("{:2} - {name:<32}{id:<16}{public_dns_name:<48}{type:<12}({state})".format(i, **get_details(instance)))
+        print(details_fmt.format(i, **get_details(instance)))
     try:
         i = int(input("\nEnter server number: "))
         connect(instances[i], args)
