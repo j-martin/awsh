@@ -8,9 +8,11 @@ Installation
 
     $ pip install awsh
 
-If you never configured awscli before:
+If you never configured awscli before.
 
     $ aws configure
+
+Alternatively it can be downloaded on [pypi](https://pypi.python.org/pypi/awsh).
 
 Requirements
 ------------
@@ -25,10 +27,10 @@ proper key and user (assuming they have not been overridden by a configuration
 management tool). You can filter by instance name and if it matches only one
 instance it will log to it.
 
-Use cases
+Use Cases
 ---------
 
-- You are running elasticbeanstalk, EMR or something that creates it's own
+- You are running Elasticbeanstalk, EMR or something that creates it's own
   instance automatically.
 - You are using different key-set for different instances and you can't remember
   which one does what.
