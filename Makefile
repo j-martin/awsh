@@ -1,12 +1,22 @@
-build:
-	help2man --name='AWSH' --output='awsh.1' 'python awsh'
-	python setup.py build
+SETUP := "python setup.py"
 
-install:
+build: clean
+	help2man --name='AWSH' --output='awsh.1' 'python awsh'
+	$(SETUP) sdist
+
+uninstall:
 	pip uninstall awsh || true
-	python setup.py install
+
+install: uninstall build
+	pip install "`find dist -name 'awsh*tar.gz'`"
+
+pipy-install: uninstall
+	pip install awsh
 
 release: build
-	git tag $(python awsh/version.py)
+	git tag "`python awsh/version.py`"
 	git push --tags
-	python setup.py sdist upload -r pypi
+	$(SETUP) sdist upload -r pypi
+
+clean:
+	rm -rf build dist
