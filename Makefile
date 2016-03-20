@@ -1,7 +1,10 @@
-SETUP := "python setup.py"
+SETUP := python setup.py
+VERSION_FILE := awsh/version.py
+VERSION := $(shell python $(VERSION_FILE))
 
 build: clean
 	help2man --name='AWSH' --output='awsh.1' 'python awsh'
+	pandoc --from=markdown --to=rst --output=README.rst README.md
 	$(SETUP) sdist
 
 uninstall:
@@ -14,7 +17,9 @@ pipy-install: uninstall
 	pip install awsh
 
 release: build
-	git tag "`python awsh/version.py`"
+	git commit -m "releasing $(VERSION)" "$(VERSION_FILE)"
+	git push
+	git tag "$(VERSION)"
 	git push --tags
 	$(SETUP) sdist upload -r pypi
 

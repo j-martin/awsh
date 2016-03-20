@@ -3,7 +3,19 @@ AWSH
 
 Another SSH utility for AWS
 
-## What does it do?
+Installation
+------------
+
+  $ pip install awsh
+
+Requirements
+------------
+
+- python 2 or 3
+- properly configured aws-cli (as in having a config here: `$HOME/.aws/config`
+
+What does it do?
+----------------
 
 It gives you a list of hosts you have access to and preconfigure `ssh` with the
 proper key and user (assuming they have not been overridden by a configuration
@@ -17,18 +29,13 @@ Use cases
 - You are using different key-set for different instances and you can't remember which one does what.
 - Instances are coming and going and you lost track of what is available.
 
-## Requirements
-
-- python 2 or 3
-- boto3 (see requirements.txt)
-- properly configured aws-cli (as in having a config here: `$HOME/.aws/config`
-
 Usage
 -----
+
 ```
-$ awsh -h
+awsh -h
 usage: awsh [-h] [--users USERS [USERS ...]] [--region REGION] [-i KEY_PATH]
-            [--keys KEYS] [--timeout TIMEOUT]
+            [-c COMMAND] [--keys KEYS] [--timeout TIMEOUT] [--version]
             [filter]
 
 SSH into AWS instances. the default Assumes that everything runs on Ubuntu and
@@ -47,6 +54,8 @@ optional arguments:
                         Specify the users to try.
   --region REGION       Specify the aws region.
   -i KEY_PATH           Specific key path, overrides, --keys
+  -c COMMAND            Translates to ssh -C
   --keys KEYS           Directory of the private keys.
   --timeout TIMEOUT     SSH connection timeout.
+  --version             Returns awsh's version.
 ```
