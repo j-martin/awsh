@@ -1,4 +1,4 @@
-AWSH
+awsh
 ----
 
 Another SSH utility for AWS
@@ -6,13 +6,16 @@ Another SSH utility for AWS
 Installation
 ------------
 
-  $ pip install awsh
+    $ pip install awsh
+
+If you never configured awscli before:
+
+    $ aws configure
 
 Requirements
 ------------
 
-- python 2 or 3
-- properly configured aws-cli (as in having a config here: `$HOME/.aws/config`
+- Python 2 or 3
 
 What does it do?
 ----------------
@@ -25,8 +28,10 @@ instance it will log to it.
 Use cases
 ---------
 
-- You are running elasticbeanstalk, EMR or something that creates it's own instance automatically.
-- You are using different key-set for different instances and you can't remember which one does what.
+- You are running elasticbeanstalk, EMR or something that creates it's own
+  instance automatically.
+- You are using different key-set for different instances and you can't remember
+  which one does what.
 - Instances are coming and going and you lost track of what is available.
 
 Usage

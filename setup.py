@@ -1,26 +1,22 @@
 from distutils.core import setup
 from awsh.version import VERSION
 
-install_requirements = [
-    'boto3>=1.2.3',
-    "botocore>=1.3.15"
-]
-
 setup(
     name='awsh',
     packages=['awsh'],
     version=VERSION,
-    description='Another AWS SSH client',
+    description='SSH into your EC2 instances based on their configurations.',
     author='Jean-Martin Archer',
     author_email='pypi@jmartin.ca',
-    url='https://github.com/j-martin/mypackageawsh',
+    url='https://github.com/j-martin/awsh',
     download_url='https://github.com/j-martin/awsh/archive/{}.tar.gz'.format(VERSION),
     keywords=['tool', 'aws', 'ec2'],
     classifiers=[],
-    install_requires=install_requirements,
+    long_description=open('README.rst').read(),
+    install_requires=[
+        'awscli>=1.10.14'
+    ],
     entry_points={
-        'console_scripts': [
-            'awsh = awsh:main',
-        ]
+        'console_scripts': ['awsh = awsh:main']
     }
 )
