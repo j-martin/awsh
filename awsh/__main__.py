@@ -15,6 +15,11 @@ def connect(instance, args):
     print('\nConnecting to: {name}\n'.format(**details))
     pprint(details)
 
+    if args.console_output:
+        print('\n========= console output start =========')
+        print(instance.console_output().get('Output', '').replace('\\n', '\n'))
+        print('========== console output end ==========\n')
+
     users = deque(args.users)
     # return code 65280 is 'Permission Denied'
     while _connect(users.popleft(), instance, args) == 65280 and len(users):
@@ -43,6 +48,8 @@ def get_details(instance):
         'type': instance.instance_type,
         'private_dns_name': instance.private_dns_name,
         'public_dns_name': instance.public_dns_name,
+        'availability_zone': instance.placement.get('AvailabilityZone'),
+        'security_groups': instance.security_groups,
         'state': instance.state.get('Name'),
         'launch time': instance.launch_time.isoformat(),
         'block devices': get_device_mappings(instance)
@@ -135,6 +142,7 @@ def create_parser():
     parser.add_argument('-c', dest='command', help='Translates to ssh -C')
     parser.add_argument('--keys', help='Directory of the private keys.', default='~/.ssh/')
     parser.add_argument('--timeout', help='SSH connection timeout.', default='5')
+    parser.add_argument('--console-output', help='Display the instance console out before logging in.', action='store_true')
     parser.add_argument('--version', help='Returns awsh\'s version.', action='store_true' )
     return parser
 
