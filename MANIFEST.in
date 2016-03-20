@@ -1,0 +1,2 @@
+include *.md
+include awsh.1

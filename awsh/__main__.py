@@ -8,8 +8,7 @@ from pprint import pprint
 import argparse
 import itertools
 from collections import deque
-
-VERSION = "1.0.0"
+from version import VERSION
 
 def connect(instance, args):
     details = get_details(instance)
@@ -84,11 +83,12 @@ def get_instances(args):
 def main():
     parser = create_parser()
     args = parser.parse_args()
-    instances = get_instances(args)
 
     if args.version:
         print(VERSION)
         exit(0)
+
+    instances = get_instances(args)
 
     if not instances:
         print('No instances found.\n')
