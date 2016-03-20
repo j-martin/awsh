@@ -14,7 +14,7 @@ setup(
     author='Jean-Martin Archer',
     author_email='pypi@jmartin.ca',
     url='https://github.com/j-martin/mypackageawsh',
-    download_url='https://github.com/j-martin/awsh/tarball/{}'.format(VERSION),
+    download_url='https://github.com/j-martin/awsh/archive/{}.tar.gz'.format(VERSION),
     keywords=['tool', 'aws', 'ec2'],
     classifiers=[],
     install_requires=install_requirements,

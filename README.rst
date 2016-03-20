@@ -1,4 +1,6 @@
-# AWSH
+AWSH
+----
+
 Another SSH utility for AWS
 
 ## What does it do?
@@ -8,7 +10,8 @@ proper key and user (assuming they have not been overridden by a configuration
 management tool). You can filter by instance name and if it matches only one
 instance it will log to it.
 
-## Use cases
+Use cases
+---------
 
 - You are running elasticbeanstalk, EMR or something that creates it's own instance automatically.
 - You are using different key-set for different instances and you can't remember which one does what.
@@ -20,8 +23,8 @@ instance it will log to it.
 - boto3 (see requirements.txt)
 - properly configured aws-cli (as in having a config here: `$HOME/.aws/config`
 
-## Usage
-
+Usage
+-----
 ```
 $ awsh -h
 usage: awsh [-h] [--users USERS [USERS ...]] [--region REGION] [-i KEY_PATH]
