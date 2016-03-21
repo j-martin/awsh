@@ -126,7 +126,7 @@ def select_instance(args, instances, parser):
 def create_parser():
     parser = argparse.ArgumentParser(description="""
           SSH into AWS instances.
-          the default Assumes that everything runs on Ubuntu and or Amazon's AMIs.
+          The default user list assumes that your instances runs on Ubuntu and or Amazon's AMIs.
           ex: "awsh --users user1 user2 --region us-west-2 --keys '~/.keys' instance-name".
 
           Note that "awsh --users user1 user2 instance-name" will not be parsed properly
