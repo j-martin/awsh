@@ -109,7 +109,7 @@ def main():
 
 
 def select_instance(args, instances, parser):
-    details_fmt = "{:2} - {name:<32}{id:<16}{public_dns_name:<48}{type:<12}({state})"
+    details_fmt = "{:2} - {name:<32}{id:<16}{public_dns_name:<48}{private_dns_name:<48}{type:<12}({state})"
     for i, instance in enumerate(instances):
         print(details_fmt.format(i, **get_details(instance)))
     try:

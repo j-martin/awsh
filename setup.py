@@ -1,5 +1,6 @@
 from distutils.core import setup
-from awsh.version import VERSION
+
+VERSION='1.0.7'
 
 setup(
     name='awsh',
