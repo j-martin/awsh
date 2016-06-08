@@ -15,7 +15,8 @@ setup(
     classifiers=[],
     long_description=open('README.rst').read(),
     install_requires=[
-        'awscli>=1.10.14'
+        'awscli>=1.10.14',
+        'boto3>=1.3.1'
     ],
     entry_points={
         'console_scripts': ['awsh = awsh:main']
