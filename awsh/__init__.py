@@ -8,7 +8,7 @@ import argparse
 import itertools
 from collections import deque
 
-VERSION = "1.0.10"
+VERSION = "1.0.11"
 
 
 def connect(instance, args):
@@ -30,16 +30,33 @@ def connect(instance, args):
 def _connect(user, instance, args):
     config = {
         'key_path': get_key_path(args, instance),
+        'tunnel': get_tunnel(args),
         'host': "{}@{}".format(user, instance.public_dns_name),
         'timeout': args.timeout
     }
-    command = 'ssh -i {key_path} {host} -o ConnectTimeout={timeout}'.format(**config)
+    command = 'ssh -i {key_path} {tunnel} {host} -o ConnectTimeout={timeout}'.format(**config)
 
     if args.command:
         command = '{} -C {}'.format(command, args.command)
 
     print('\nTrying with user: {}.\nCommand: {}'.format(user, command))
     return system(command)
+
+
+def get_tunnel(args):
+    if not args.remote_host:
+        return ''
+
+    url = args.remote_host.split(':')
+    if len(url) == 2:
+        params = {'local_port': args.local_port or url[1], 'remote_host': url[0], 'remote_port': url[1]}
+    elif len(url) == 3:
+        params = {'local_port': url[0], 'remote_host': url[1], 'remote_port': url[2]}
+    else:
+        if not args.local_port:
+            args.local_port = args.remote_port
+        params = args.__dict__
+    return "-L '{local_port}:{remote_host}:{remote_port}'".format(**params)
 
 
 def get_details(instance):
@@ -135,16 +152,21 @@ def create_parser():
           "awsh instance-name --users user1 user2".
           """)
     parser.add_argument('filter', nargs='?', default='*', help='Optional name filter. '
-                        'If only one instance is found, it will connect to it directly.')
+                                                               'If only one instance is found, it will connect to it directly.')
     parser.add_argument('--users', nargs='+', help='Specify the users to try.',
                         default=['ubuntu', 'ec2-user'])
     parser.add_argument('--region', help='Specify the aws region.', default='us-east-1')
-    parser.add_argument('-i', dest='key_path', help='Specific key path, overrides, --keys')
-    parser.add_argument('-c', dest='command', help='Translates to ssh -C')
+    parser.add_argument('-i', '--key-path', help='Specific key path, overrides, --keys')
+    parser.add_argument('-c', '--command', help='Translates to ssh -C')
+    parser.add_argument('-n', '--remote-host',
+                        help='Open a tunnels. Translates to ssh -L <remote-port>:<remote-host>:<remote-port> <selected-aws-host>')
+    parser.add_argument('-p', '--remote-port', help='Port to use on the remote host.', default=5432)
+    parser.add_argument('-l', '--local-port', help='Port to use on the local host. Get overwritten by remote port if not defined.')
     parser.add_argument('--keys', help='Directory of the private keys.', default='~/.ssh/')
     parser.add_argument('--timeout', help='SSH connection timeout.', default='5')
-    parser.add_argument('--console-output', help='Display the instance console out before logging in.', action='store_true')
-    parser.add_argument('--version', help='Returns awsh\'s version.', action='store_true' )
+    parser.add_argument('--console-output', help='Display the instance console out before logging in.',
+                        action='store_true')
+    parser.add_argument('--version', help='Returns awsh\'s version.', action='store_true')
     return parser
 
 
