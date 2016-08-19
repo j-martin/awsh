@@ -158,8 +158,8 @@ def create_parser():
     parser.add_argument('--region', help='Specify the aws region.', default='us-east-1')
     parser.add_argument('-i', '--key-path', help='Specific key path, overrides, --keys')
     parser.add_argument('-c', '--command', help='Translates to ssh -C')
-    parser.add_argument('-n', '--remote-host',
-                        help='Open a tunnels. Translates to ssh -L <remote-port>:<remote-host>:<remote-port> <selected-aws-host>')
+    parser.add_argument('-r', '--remote-host',
+                        help='Open a tunnels. Translates to ssh -L <local-port>:<remote-host>:<remote-port> <selected-aws-host>')
     parser.add_argument('-p', '--remote-port', help='Port to use on the remote host.', default=5432)
     parser.add_argument('-l', '--local-port', help='Port to use on the local host. Get overwritten by remote port if not defined.')
     parser.add_argument('--keys', help='Directory of the private keys.', default='~/.ssh/')
