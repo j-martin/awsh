@@ -40,7 +40,7 @@ Usage
 -----
 
 ```
-usage: __init__.py [-h] [--users USERS [USERS ...]] [--region REGION]
+usage: awsh [-h] [--users USERS [USERS ...]] [--region REGION]
                    [-i KEY_PATH] [-c COMMAND] [-r REMOTE_HOST]
                    [-p REMOTE_PORT] [-l LOCAL_PORT] [--keys KEYS]
                    [--timeout TIMEOUT] [--console-output] [--version]
