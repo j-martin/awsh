@@ -37,7 +37,7 @@ def _connect(user, instance, args):
     command = 'ssh -i {key_path} {tunnel} {host} -o ConnectTimeout={timeout}'.format(**config)
 
     if args.command:
-        command = '{} -C {}'.format(command, args.command)
+        command = "{} -C '{}'".format(command, args.command)
 
     print('\nTrying with user: {}.\nCommand: {}'.format(user, command))
     return system(command)
@@ -99,7 +99,10 @@ def get_name(instance):
 
 def get_instances(args):
     ec2 = boto3.resource('ec2', region_name=args.region)
-    filters = [{'Name': 'tag:Name', 'Values': ['*{filter}*'.format(**args.__dict__)]}]
+    filters = [
+        {'Name': 'tag:Name', 'Values': ['*{filter}*'.format(**args.__dict__)]},
+        {'Name': 'instance-state-name', 'Values': ['running']}
+    ]
 
     print('Querying AWS for EC2 instances in region: {region}...\n'.format(**args.__dict__))
     return sorted(ec2.instances.filter(Filters=filters), key=get_name)
@@ -114,24 +117,28 @@ def main():
         exit(0)
 
     instances = get_instances(args)
+    display_instances(instances)
 
     if not instances:
-        print('No instances found.\n')
+        print('No running instances found.\n')
         exit(1)
 
     if len(instances) == 1:
-        print('Found one instance and connecting to it...\n')
+        print('Found one running instance and connecting to it...\n')
         connect(instances[0], args)
     else:
         select_instance(args, instances, parser)
 
 
-def select_instance(args, instances, parser):
-    details_fmt = "{:2} - {name:<32}{id:<24}{public_dns_name:<48}{private_dns_name:<48}{type:<12}({state})"
+def display_instances(instances):
+    details_fmt = "{:2} - {name:<30}{id:<21}{public_dns_name:<44}{private_dns_name:<30}{type:<12}({state})"
     for i, instance in enumerate(instances):
         print(details_fmt.format(i, **get_details(instance)))
+    print()
+
+def select_instance(args, instances, parser):
     try:
-        i = int(input("\nEnter server number: "))
+        i = int(input("Enter server number: "))
         connect(instances[i], args)
     except ValueError:
         print('Invalid instance.\n')
